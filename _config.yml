@@ -1,2 +1,2 @@
 # Folders with dotfiles are ignored by default.
-include: .well-known
+include: [.well-known]

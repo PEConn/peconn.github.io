@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],  
   "target": {  
     "namespace": "android_app",  
-    "package_name": "com.peter.trustedpeteractivity",
+    "package_name": "com.peter.trustedpetersactivity",
     "sha256_cert_fingerprints": [
       "FA:2A:03:CB:38:9C:F3:BE:28:E3:CA:7F:DA:2E:FA:4F:4A:96:F3:BC:45:2C:08:A2:16:A1:5D:FD:AB:46:BC:9D"
     ]
