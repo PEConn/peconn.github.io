@@ -31,27 +31,31 @@
     navigator.serviceWorker
              .register('./service-worker.js')
              .then(function() { console.log('Service Worker Registered'); });
-  }
 
-  if (Notification.permission !== "granted") {
-    Notification.requestPermission();
-  }
-  document.getElementById('butNotify').addEventListener('click', function() {
-    if (Notification.permission !== "granted")
+    if (Notification.permission !== "granted") {
       Notification.requestPermission();
-    else {
-      var notification = new Notification('Your starter', {
-        icon: img.src,
-        body: "This is your starter!",
-      });
-
-      notification.onclick = function () {
-        window.open(window.location.href);
-      };
-
-      document.getElementById('butCancel').addEventListener('click', function() {
-        notification.close();
-      });
     }
-  });
+
+    navigator.serviceWorker
+      .register('./notification-service-worker.js')
+      .then(function(registration) { 
+        document.getElementById('butNotify').addEventListener('click', function() {
+          const title = 'Your starter'
+          const options = {
+            body: 'Are you happy with your choice?',
+            icon: img.src,
+            badge: img.src
+          };
+          registration.showNotification(title, options);
+        });
+
+        document.getElementById('butCancel').addEventListener('click', function() {
+          registration.getNotifications().then(function(notifications) {
+            notifications.forEach(notification => notification.close());
+          });
+        });
+      }
+    );
+  }
+
 })();
