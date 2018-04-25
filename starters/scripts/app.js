@@ -32,4 +32,26 @@
              .register('./service-worker.js')
              .then(function() { console.log('Service Worker Registered'); });
   }
+
+  if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+  document.getElementById('butNotify').addEventListener('click', function() {
+    if (Notification.permission !== "granted")
+      Notification.requestPermission();
+    else {
+      var notification = new Notification('Your starter', {
+        icon: img.src,
+        body: "This is your starter!",
+      });
+
+      notification.onclick = function () {
+        window.open(window.location.href);
+      };
+
+      document.getElementById('butCancel').addEventListener('click', function() {
+        notification.close();
+      });
+    }
+  });
 })();

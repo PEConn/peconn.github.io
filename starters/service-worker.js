@@ -1,6 +1,7 @@
-var cacheName = 'starterPWA';
+var cacheName = 'starterPWA-v2';
 var files = [
   '/',
+  '/favicon.ico',
   '/index.html',
   '/scripts/app.js',
   '/styles/inline.css',
