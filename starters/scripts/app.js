@@ -15,16 +15,16 @@
 
 (function() {
   'use strict';
-  var img = document.getElementById('image')
+  const configs = [
+    { button: 'butBulbasaur', image: 'images/bulbasaur.png' },
+    { button: 'butCharmander', image: 'images/charmander.png' },
+    { button: 'butSquirtle', image: 'images/squirtle.png' }
+  ]
 
-  document.getElementById('butBulbasaur').addEventListener('click', function() {
-    img.src='images/bulbasaur.png';
-  });
-  document.getElementById('butCharmander').addEventListener('click', function() {
-    img.src='images/charmander.png';
-  });
-  document.getElementById('butSquirtle').addEventListener('click', function() {
-    img.src='images/squirtle.png';
+  configs.forEach(config => {
+    document.getElementById(config.button).addEventListener('click', function() {
+        document.getElementById('image').src = config.image;
+      });
   });
 
   if ('serviceWorker' in navigator) {
