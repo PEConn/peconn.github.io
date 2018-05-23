@@ -1,4 +1,5 @@
 var cacheName = 'starterPWA-v2';
+var dir = '/starters';
 var files = [
   '/',
   '/favicon.ico',
@@ -8,16 +9,17 @@ var files = [
   '/images/bulbasaur.png',
   '/images/charmander.png',
   '/images/squirtle.png'
-];
+].map(file => dir + file);
 
 self.addEventListener('install', function(e) {
   console.log('[ServiceWorker] Install');
   e.waitUntil(
     caches.open(cacheName).then(function(cache) {
       console.log('[ServiceWorker] Caching')
-      cache.addAll(files);
+      return cache.addAll(files);
     })
   );
+  console.log('[ServiceWorker] Cached');
 });
 
 self.addEventListener('fetch', function(e) {
@@ -26,5 +28,13 @@ self.addEventListener('fetch', function(e) {
     caches.match(e.request).then(function(response) {
       return response || fetch(e.request);
     })
+  );
+});
+
+self.addEventListener('notificationclick', function(event) {
+  console.log('[Service Worker] Notification clicked.');
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow('https://peconn.github.io/starters/')
   );
 });
