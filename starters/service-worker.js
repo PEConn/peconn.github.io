@@ -1,15 +1,15 @@
 var cacheName = 'starterPWA-v2';
 var dir = '/starters';
 var files = [
-  '/',
-  '/favicon.ico',
-  '/index.html',
-  '/scripts/app.js',
-  '/styles/inline.css',
-  '/images/bulbasaur.png',
-  '/images/charmander.png',
-  '/images/squirtle.png'
-].map(file => dir + file);
+  '',
+  'favicon.ico',
+  'index.html',
+  'scripts/app.js',
+  'styles/inline.css',
+  'images/bulbasaur.png',
+  'images/charmander.png',
+  'images/squirtle.png'
+]
 
 self.addEventListener('install', function(e) {
   console.log('[ServiceWorker] Install');
