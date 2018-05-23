@@ -8,7 +8,8 @@ var files = [
   'styles/inline.css',
   'images/bulbasaur.png',
   'images/charmander.png',
-  'images/squirtle.png'
+  'images/squirtle.png',
+  'math-worker.js'
 ]
 
 self.addEventListener('install', function(e) {

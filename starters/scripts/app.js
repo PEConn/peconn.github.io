@@ -1,5 +1,7 @@
 (function() {
   'use strict';
+
+  const img = document.getElementById('image');
   const configs = [
     { button: 'butBulbasaur', image: 'images/bulbasaur.png' },
     { button: 'butCharmander', image: 'images/charmander.png' },
@@ -8,7 +10,7 @@
 
   configs.forEach(config => {
     document.getElementById(config.button).addEventListener('click', function() {
-        document.getElementById('image').src = config.image;
+        img.src = config.image;
       });
   });
 
