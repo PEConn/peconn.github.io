@@ -23,11 +23,23 @@ self.addEventListener('install', function(e) {
   console.log('[ServiceWorker] Cached');
 });
 
-self.addEventListener('fetch', function(e) {
-  console.log('[ServiceWorker] Fetch', e.request.url);
-  e.respondWith(
-    caches.match(e.request).then(function(response) {
-      return response || fetch(e.request);
+self.addEventListener('fetch', function(event) {
+  console.log('[ServiceWorker] Fetch', event.request.url);
+
+  event.respondWith(
+    caches.open(cacheName).then(cache => {
+      return fetch(event.request).then(
+        response => {
+          console.log("Hitting network.");
+          // Cache the new version of the page.
+          cache.put(event.request, response.clone());
+          return response;
+        },
+        error => {
+          console.log("Hitting cache.");
+          return cache.match(event.request);
+        }
+      );
     })
   );
 });
