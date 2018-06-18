@@ -9,9 +9,18 @@
   ]
 
   configs.forEach(config => {
-    document.getElementById(config.button).addEventListener('click', function() {
-        img.src = config.image;
+    const button = document.getElementById(config.button);
+    button.addEventListener('click', function() {
+      configs.forEach(otherConfig => {
+        if (config === otherConfig) return;
+        const otherButton = document.getElementById(otherConfig.button);
+        otherButton.classList.remove("mdl-button--colored");
+        otherButton.classList.add("mdl-button--accent");
       });
+      img.src = config.image;
+      button.classList.remove("mdl-button--accent");
+      button.classList.add("mdl-button--colored");
+    });
   });
 
   if ('serviceWorker' in navigator) {
@@ -52,10 +61,12 @@
     button.addEventListener('click', function() {
       if (worker == null) {
         worker = new Worker('./math-worker.js');
-        worker.onmessage = (event) => response.textContent = event.data;
+        worker.onmessage = (event) => output.textContent = event.data;
       }
       worker.postMessage([3]);
     });
   }
+
+  document.getElementById('url').textContent = window.location.href;
 
 })();

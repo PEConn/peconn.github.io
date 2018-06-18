@@ -1,3 +1,25 @@
-button {
-  display:block
+.picker-card > div {
+}
+
+.picker-card > .mdl-card__media {
+  background-color: transparent;
+}
+
+.centered {
+  display: block;
+  margin: 0 auto;
+}
+
+div.centered {
+  display:inline-block;
+}
+
+.centered-div-parent {
+  text-align: center;
+}
+
+.mdl-card {
+  width: 400px;
+  min-height: 0;
+  margin: 1em;
 }

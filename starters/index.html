@@ -1,7 +1,13 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Pick a starter!</title>
+  <!-- Material Design Light -->
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-blue.min.css" />
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
   <link rel="stylesheet" type="text/css" href="styles/inline.css">
 
   <link rel="shortcut icon" href="favicon.ico">
@@ -9,26 +15,68 @@
 </head>
 <body>
 
-  <img id="image" src="images/bulbasaur.png" width="250" height="250">
-  <button id="butBulbasaur">Bulbasaur</button>
-  <button id="butCharmander">Charmander</button>
-  <button id="butSquirtle">Squirtle</button>
+<div class="mdl-card picker-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    Picker
+  </div>
+  <div class="mdl-card__media">
+    <img id="image" class="centered" width="250" height="250" src="images/bulbasaur.png">
+  </div>
+  <div class="mdl-card__actions centered-div-parent">
+    <div class="centered">
+      <button id="butBulbasaur" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+        Bulbasaur
+      </button>
+      <button id="butCharmander" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        Charmander
+      </button>
+      <button id="butSquirtle" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        Squirtle
+      </button>
+    </div>
+  </div>
+</div>
 
-  <br>
-  <br>
-  <br>
+<div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    Notifications
+  </div>
+  <div class="mdl-card__actions centered-div-parent">
+    <div class="centered">
+      <button id="butNotify" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        Notify
+      </button>
+      <button id="butCancel" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
 
-  <button id="butNotify">Notify</button>
-  <button id="butCancel">Cancel</button>
+<div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    Workers
+  </div>
+  <div class="mdl-card__supporting-text">
+    <span id="response"></span>
+  </div>
+  <div class="mdl-card__actions">
+    <button id="butMessage" class="centered mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      Message
+    </button>
+  </div>
+</div>
 
-  <br>
-  <br>
-  <br>
+<div class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    URL
+  </div>
+  <div class="mdl-card__supporting-text">
+    <span id="url"></span>
+  </div>
+</div>
 
-  <button id="butMessage" disabled>Message</button>
-  <span id="response"></span>
-
-  <script src="scripts/app.js" async></script>
+<script src="scripts/app.js" async></script>
 
 </body>
 </html>
