@@ -65,6 +65,14 @@
       }
       worker.postMessage([3]);
     });
+
+    window.addEventListener("message", function(event) {
+      console.log("[PostMessage] Got message: " + event.data);
+      if (event.ports != null && event.ports.length > 0) {
+        console.log("[PostMessage] Return channel: " + event.ports);
+        e.ports[0].postMessage("Response: " + event.data);
+      }
+    });
   }
 
   document.getElementById('url').textContent = window.location.href;
