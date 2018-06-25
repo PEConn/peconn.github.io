@@ -2,10 +2,15 @@
   "name": "Starters",
   "short_name": "Starters",
   "icons": [{
-    "src": "images/icons/icon.png",
+      "src": "images/icons/icon.png",
       "sizes": "150x150",
       "type": "image/png"
-    }],
+    }, {
+      "src": "images/icons/splash.png",
+      "sizes": "1080x1920",
+      "type": "image/png"
+    }
+  ],
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#3E4EB8",
