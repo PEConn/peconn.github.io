@@ -64,6 +64,6 @@ self.addEventListener('notificationclick', function(event) {
   console.log('[Service Worker] Notification clicked.');
   event.notification.close();
   event.waitUntil(
-    clients.openWindow('https://peconn.github.io/starters/')
+    clients.openWindow('https://peconn.github.io/starters/?notification=true')
   );
 });
