@@ -1,0 +1,19 @@
+.my-card-header {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.spacer {
+    /*flex-grow: 1;*/
+    flex: 1 1 auto;
+}
+
+/* TODO: Put value underneath name if screen is too small. */
+/* TODO: Align the bottom of value with the bottom of name. */
+.flag-value {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.flag-name {
+    margin-bottom: 0;
+}
