@@ -52,8 +52,12 @@
   }
 
   if (window.Worker) {
-    const button = document.getElementById('butMessage');
     const output = document.getElementById('response');
+    function appendOutput(msg) {
+      var log = output.textContent;
+      output.textContent = log + msg + "\n";
+    }
+    const button = document.getElementById('butMessage');
     button.disabled = false;
 
     var worker = null;
@@ -61,13 +65,15 @@
     button.addEventListener('click', function() {
       if (worker == null) {
         worker = new Worker('./math-worker.js');
-        worker.onmessage = (event) => output.textContent = event.data;
+        worker.onmessage = (event) => appendOutput(event.data);
       }
       worker.postMessage([3]);
     });
 
     window.addEventListener("message", function(event) {
       console.log("[PostMessage] Got message: " + event.data);
+      appendOutput(event.data);
+
       if (event.ports != null && event.ports.length > 0) {
         console.log("[PostMessage] Return channel: " + event.ports);
         e.ports[0].postMessage("Response: " + event.data);
