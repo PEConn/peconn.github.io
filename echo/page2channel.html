@@ -1,6 +1,7 @@
 <!DOCTYPE html><html><body>
     <script>
-        onmessage = function (e) {
+        window.onmessage = function (e) {
+            console.log("Hello");
             if (e.ports != null && e.ports.length > 0) {
                e.ports[0].postMessage("Hello from JS");
             }
