@@ -6,9 +6,9 @@
     { button: 'butBulbasaur', image: 'images/bulbasaur.png' },
     { button: 'butCharmander', image: 'images/charmander.png' },
     { button: 'butSquirtle', image: 'images/squirtle.png' }
-  ]
+  ];
 
-  configs.forEach(config => {
+  configs.forEach((config) => {
     const button = document.getElementById(config.button);
     button.addEventListener('click', function() {
       configs.forEach(otherConfig => {
@@ -27,8 +27,9 @@
     navigator.serviceWorker
       .register('./service-worker.js')
       .then(function(registration) {
-        document.getElementById('butNotify').addEventListener('click', function() {
-          const title = 'Your starter'
+        document.getElementById('butNotify')
+            .addEventListener('click', function() {
+          const title = 'Your starter';
           const options = {
             body: 'Are you happy with your choice?',
             icon: img.src,
@@ -37,7 +38,8 @@
           registration.showNotification(title, options);
         });
 
-        document.getElementById('butCancel').addEventListener('click', function() {
+        document.getElementById('butCancel')
+            .addEventListener('click', function() {
           registration.getNotifications().then(function(notifications) {
             notifications.forEach(notification => notification.close());
           });
@@ -52,6 +54,7 @@
   }
 
   if (window.Worker) {
+    const output = document.getElementById('response');
     function appendOutput(msg) {
       var log = output.textContent;
       output.textContent = log + msg + "\n";
