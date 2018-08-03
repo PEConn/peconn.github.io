@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><body>
+    <script>
+        var received = '';
+        onmessage = function (e) {
+            var myport = e.ports[0];
+            myport.onmessage = function (f) {
+                received += f.data;
+                document.title = received;
+            }
+        }
+   </script>
+</body></html>
