@@ -77,11 +77,11 @@
       var port = event.ports[0];
       port.postMessage("Connected");
 
-      port.addEventListener("message", function(event) {
+      port.onmessage = function(event) {
         console.log("[PostMessage] Got Message: " + event.data);
         appendOutput(event.data);
         port.postMessage("ACK " + event.data);
-      })
+      };
     });
   }
 
