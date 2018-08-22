@@ -73,13 +73,15 @@
     });
 
     window.addEventListener("message", function(event) {
-      console.log("[PostMessage] Got message: " + event.data);
-      appendOutput(event.data);
+      console.log("[PostMessage] Got MessagePort.");
+      var port = event.ports[0];
+      port.postMessage("Connected");
 
-      if (event.ports != null && event.ports.length > 0) {
-        console.log("[PostMessage] Return channel: " + event.ports);
-        event.ports[0].postMessage("Response: " + event.data);
-      }
+      port.addEventListener("message", function(event) {
+        console.log("[PostMessage] Got Message: " + event.data);
+        appendOutput(event.data);
+        port.postMessage("ACK " + event.data);
+      })
     });
   }
 
