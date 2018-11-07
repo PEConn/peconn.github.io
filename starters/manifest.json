@@ -4,7 +4,8 @@
   "icons": [{
       "src": "images/icons/icon.png",
       "sizes": "150x150",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
     }, {
       "src": "images/icons/splash.png",
       "sizes": "1080x1920",
