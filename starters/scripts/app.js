@@ -87,4 +87,34 @@
 
   document.getElementById('url').textContent = window.location.href;
 
+  function getCookie(name) {
+    var value = null;
+    document.cookie.split(';').forEach(cookie => {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name)) {
+        value = cookie.substring(name.length + 1);
+      }
+    });
+
+    return value;
+  }
+
+  function setCookie(name, value) {
+    var year = 60*60*25*365;
+    // Yes this is ugly...
+    var domain = document.location.hostname;
+    if (domain === "localhost") {
+      document.cookie = `${name}=${value} ;max-age=${year} ;path=/`;
+    } else {
+      document.cookie = `${name}=${value} ;max-age=${year} ;domain=${domain} ;path=/`;
+    }
+  }
+
+  var visitCount = Number(getCookie("visitCount"));
+  if (isNaN(visitCount)) visitCount = 1;
+
+  document.getElementById('cookie').textContent = visitCount;
+
+  setCookie("visitCount", visitCount + 1);
+
 })();
