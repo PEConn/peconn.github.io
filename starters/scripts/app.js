@@ -32,8 +32,7 @@
           const title = 'Your starter';
           const options = {
             body: 'Are you happy with your choice?',
-            icon: img.src,
-            badge: img.src
+            icon: img.src
           };
           registration.showNotification(title, options);
         });
