@@ -24,7 +24,7 @@
    "namespace": "android_app",
    "package_name": "com.example.pshmakov.twatest",
    "sha256_cert_fingerprints": [
-     "64:2F:D4:BE:1C:4D:F8:36:2E:D3:50:C4:69:53:96:A1:3D:14:0A:23:AD:2F:BF:EB:6E:C6:E4:64:54:3B:34:C1"
+     "B0:5B:2E:55:7A:46:A7:F9:38:3E:FD:7D:C5:F5:15:1D:86:D7:E6:9F:FB:7B:FE:00:A9:E0:CD:EC:54:43:1F:00"
    ]
  }
 }, {
@@ -33,7 +33,7 @@
    "namespace": "android_app",
    "package_name": "com.example.pshmakov.twatest2",
    "sha256_cert_fingerprints": [
-     "64:2F:D4:BE:1C:4D:F8:36:2E:D3:50:C4:69:53:96:A1:3D:14:0A:23:AD:2F:BF:EB:6E:C6:E4:64:54:3B:34:C1"
+     "B0:5B:2E:55:7A:46:A7:F9:38:3E:FD:7D:C5:F5:15:1D:86:D7:E6:9F:FB:7B:FE:00:A9:E0:CD:EC:54:43:1F:00"
    ]
  }
 }]
