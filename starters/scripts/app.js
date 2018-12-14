@@ -3,9 +3,9 @@
 
   const img = document.getElementById('image');
   const configs = [
-    { button: 'butBulbasaur', image: 'images/bulbasaur.png' },
-    { button: 'butCharmander', image: 'images/charmander.png' },
-    { button: 'butSquirtle', image: 'images/squirtle.png' }
+    { button: 'butBulbasaur', image: 'images/bulbasaur.png', alt: 'Bulbasaur' },
+    { button: 'butCharmander', image: 'images/charmander.png', alt: 'Charmander' },
+    { button: 'butSquirtle', image: 'images/squirtle.png', alt: 'Squirtle' }
   ];
 
   configs.forEach((config) => {
@@ -18,6 +18,7 @@
         otherButton.classList.add("mdl-button--accent");
       });
       img.src = config.image;
+      img.alt = config.alt;
       button.classList.remove("mdl-button--accent");
       button.classList.add("mdl-button--colored");
     });
