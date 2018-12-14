@@ -59,7 +59,7 @@
       var log = output.textContent;
       output.textContent = log + msg + "\n";
     }
-    const button = document.getElementById('butMessage');
+    const button = document.getElementById('butMessageWorker');
     button.disabled = false;
 
     var worker = null;
@@ -72,10 +72,18 @@
       worker.postMessage([3]);
     });
 
+
+    const clientButton = document.getElementById('butMessageClient');
+    clientButton.disabled = true;
     window.addEventListener("message", function(event) {
       console.log("[PostMessage] Got MessagePort.");
       var port = event.ports[0];
       port.postMessage("Connected");
+
+      clientButton.disabled = false;
+      clientButton.addEventListener('click', function() {
+        port.postMessage(img.alt);
+      });
 
       port.onmessage = function(event) {
         console.log("[PostMessage] Got Message: " + event.data);
