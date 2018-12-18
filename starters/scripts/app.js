@@ -96,6 +96,7 @@
   const shareButton = document.getElementById('butShare');
   shareButton.disabled = true;
   if (navigator.share) {
+    shareButton.disabled = false;
     shareButton.addEventListener('click', function() {
       navigator.share({
         title: 'Your Choice',
