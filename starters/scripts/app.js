@@ -93,6 +93,17 @@
     });
   }
 
+  const shareButton = document.getElementById('butShare');
+  shareButton.disabled = true;
+  if (navigator.share) {
+    navigator.share({
+      title: 'Your Choice',
+      text: 'You picked ' + img.alt,
+      url: window.location.href
+    }).then(() => console.log("[Share] Success."))
+      .catch((error) => console.log("[Share] Error.", error));
+  }
+
   document.getElementById('url').textContent = window.location.href;
 
   function getCookie(name) {
