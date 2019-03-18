@@ -24,6 +24,14 @@
     });
   });
 
+  function updateNotificationStatus() {
+    const field = document.getElementById('notificationsEnabled');
+    field.textContent = Notification.permission;
+    setTimeout(updateNotificationStatus, 1000);
+  }
+
+  updateNotificationStatus();
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('./service-worker.js')
