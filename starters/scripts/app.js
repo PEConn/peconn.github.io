@@ -43,6 +43,11 @@
             body: 'Are you happy with your choice?',
             icon: img.src
           };
+
+          if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+          }
+
           registration.showNotification(title, options);
         });
 
@@ -55,10 +60,6 @@
       }
       )
       .then(function() { console.log('Service Worker Registered'); });
-
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission();
-    }
   }
 
   if (window.Worker) {
