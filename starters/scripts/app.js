@@ -41,7 +41,10 @@
           const title = 'Your starter';
           const options = {
             body: 'Are you happy with your choice?',
-            icon: img.src
+            icon: img.src,
+            data: {
+              url: window.location.origin + window.location.pathname + "?notification=true"
+            }
           };
 
           if (Notification.permission !== "granted") {

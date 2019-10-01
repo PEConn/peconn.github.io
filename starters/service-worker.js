@@ -63,7 +63,35 @@ self.addEventListener('fetch', async function(event) {
 self.addEventListener('notificationclick', function(event) {
   console.log('[Service Worker] Notification clicked.');
   event.notification.close();
-  event.waitUntil(
-    clients.openWindow('https://peconn.github.io/starters/?notification=true')
-  );
+
+  const target =
+    new URL(event.notification.data.url);
+
+  event.waitUntil(async function() {
+    const clientWindows = await clients.matchAll({type: 'window'});
+
+    for (const client of clientWindows) {
+      const current = new URL(client.url);
+
+      if (!client.focus) continue;
+
+      if (target.pathname !== current.pathname) continue;
+
+      console.log('[Service Worker] Focusing.');
+      // Does getting the new client matter?
+      const newClient = await client.focus();
+
+      if (target.toString() !== current.toString()) {
+        console.log('[Service Worker] Navigating.');
+        await newClient.navigate(target.toString());
+      }
+
+      return;
+    }
+
+    if (clients.openWindow) {
+      console.log("[Service Worker] Opening Window.");
+      await clients.openWindow(target.toString());
+    }
+  }());
 });
