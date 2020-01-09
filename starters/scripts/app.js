@@ -89,7 +89,11 @@
     clientButton.disabled = true;
     window.addEventListener("message", function(event) {
       console.log("[PostMessage] Got MessagePort.");
+      appendOutput("Got initial message.");
+
       var port = event.ports[0];
+      if (typeof port === 'undefined') return;
+
       port.postMessage("Connected");
 
       clientButton.disabled = false;
@@ -104,6 +108,7 @@
       };
     });
   }
+  console.log("[PostMessage] Listener registered.");
 
   const shareButton = document.getElementById('butShare');
   shareButton.disabled = true;
