@@ -88,11 +88,14 @@
     const clientButton = document.getElementById('butMessageClient');
     clientButton.disabled = true;
     window.addEventListener("message", function(event) {
-      console.log("[PostMessage] Got MessagePort.");
+      console.log("[PostMessage] Got initial message.");
       appendOutput("Got initial message.");
 
       var port = event.ports[0];
       if (typeof port === 'undefined') return;
+
+      console.log("[PostMessage] Got message port.");
+      appendOutput("Got message port.");
 
       port.postMessage("Connected");
 
