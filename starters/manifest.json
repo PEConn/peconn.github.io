@@ -15,5 +15,14 @@
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#3E4EB8",
-  "theme_color": "#3E4EB8"
+  "theme_color": "#3E4EB8",
+  "share_target": {
+    "action": "/share-target/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
