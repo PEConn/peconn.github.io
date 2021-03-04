@@ -70,6 +70,14 @@ self.addEventListener('notificationclick', function(event) {
   event.waitUntil(async function() {
     const clientWindows = await clients.matchAll({type: 'window'});
 
+    // Add some delays depending on the pokemon chosen.
+    const choice = event.notification.data.img;
+    if (choice.contains("charmander")) {
+      await sleep(2000);
+    } else if (choice.contains("squirtle")) {
+      await sleep(6000);
+    }
+
     for (const client of clientWindows) {
       const current = new URL(client.url);
 
