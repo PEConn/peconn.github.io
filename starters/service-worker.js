@@ -60,6 +60,10 @@ self.addEventListener('fetch', async function(event) {
   }());
 });
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 self.addEventListener('notificationclick', function(event) {
   console.log('[Service Worker] Notification clicked.');
   event.notification.close();
