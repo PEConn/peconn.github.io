@@ -43,6 +43,7 @@
             body: 'Are you happy with your choice?',
             icon: img.src,
             data: {
+              img: img.src,
               url: window.location.origin + window.location.pathname + "?notification=true"
             }
           };
