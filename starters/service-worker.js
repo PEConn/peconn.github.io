@@ -77,7 +77,7 @@ self.addEventListener('notificationclick', function(event) {
     // Add some delays depending on the pokemon chosen.
     const choice = event.notification.data.img;
     if (choice.includes("charmander")) {
-      await sleep(2000);
+      return;
     } else if (choice.includes("squirtle")) {
       await sleep(6000);
     }
