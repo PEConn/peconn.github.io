@@ -51,6 +51,15 @@
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
+   "package_name": "peconn.starter.twa",
+   "sha256_cert_fingerprints": [
+     "F6:01:12:78:BD:E1:88:52:D5:0F:05:2A:5E:62:A7:67:43:83:51:C6:3D:43:39:D0:4E:27:C9:D8:F1:1B:A1:6F"
+   ]
+ }
+}, {
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "android_app",
    "package_name": "com.google.androidbrowserhelper.webshare",
    "sha256_cert_fingerprints": [
      "8C:18:7D:26:05:EE:2E:AF:4B:76:20:6F:39:7B:04:13:91:A2:E2:EC:C4:43:04:E1:25:E8:B8:E0:F4:73:5F:80"
