@@ -26,6 +26,9 @@
 
   function updateNotificationStatus() {
     const field = document.getElementById('notificationsEnabled');
+    if (!("Notification" in window)) {
+      field.textContent = "Notification doesn't exist in window";
+    }
     field.textContent = Notification.permission;
     setTimeout(updateNotificationStatus, 1000);
   }
@@ -36,6 +39,8 @@
     navigator.serviceWorker
       .register('./service-worker.js')
       .then(function(registration) {
+        if (!("Notification" in window)) return;
+
         document.getElementById('butNotify')
             .addEventListener('click', function() {
           const title = 'Your starter';
