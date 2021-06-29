@@ -28,6 +28,7 @@
     const field = document.getElementById('notificationsEnabled');
     if (!("Notification" in window)) {
       field.textContent = "Notification doesn't exist in window";
+      return;
     }
     field.textContent = Notification.permission;
     setTimeout(updateNotificationStatus, 1000);
