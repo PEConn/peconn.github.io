@@ -69,6 +69,15 @@
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
+   "package_name": "com.google.browser.examples.twa_basic",
+   "sha256_cert_fingerprints": [
+     "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
+   ]
+ }
+}, {
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "android_app",
    "package_name": "com.example.pshmakov.twatest2",
    "sha256_cert_fingerprints": [
      "B0:5B:2E:55:7A:46:A7:F9:38:3E:FD:7D:C5:F5:15:1D:86:D7:E6:9F:FB:7B:FE:00:A9:E0:CD:EC:54:43:1F:00"
