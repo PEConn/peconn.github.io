@@ -51,7 +51,8 @@
             data: {
               img: img.src,
               url: window.location.origin + window.location.pathname + "?notification=true"
-            }
+            },
+            launchUrl: 'https://peconn.github.io/starters/?launched=true'
           };
 
           if (Notification.permission !== "granted") {
