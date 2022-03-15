@@ -62,6 +62,11 @@
           registration.showNotification(title, options);
         });
 
+        document.getElementById('butRequest')
+            .addEventListener('click', function() {
+          Notification.requestPermission();
+        });
+
         document.getElementById('butCancel')
             .addEventListener('click', function() {
           registration.getNotifications().then(function(notifications) {
