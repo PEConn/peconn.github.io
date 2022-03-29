@@ -1,4 +1,13 @@
 [{  
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.peter.starters",
+    "sha256_cert_fingerprints": [
+      "C5:72:1A:94:C5:A5:A4:5E:B7:23:46:2E:D1:89:FF:61:92:36:72:A0:9B:8D:41:61:13:88:D8:87:22:1D:2D:84"
+    ]
+  }
+}, {
   "relation": ["delegate_permission/common.handle_all_urls"],  
   "target": {  
     "namespace": "android_app",  
