@@ -80,6 +80,15 @@
    "namespace": "android_app",
    "package_name": "com.google.browser.examples.twa_basic",
    "sha256_cert_fingerprints": [
+     "21:7F:CC:8D:AC:1E:76:1D:2F:15:87:F2:59:41:C8:2F:AB:A5:9D:FC:83:FD:57:AB:79:E5:E6:5A:9C:00:C6:B9"
+   ]
+ }
+}, {
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "android_app",
+   "package_name": "com.google.browser.examples.twa_basic",
+   "sha256_cert_fingerprints": [
      "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
    ]
  }
