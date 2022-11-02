@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="style.css">
   <style type="text/css">
     body {
-      background: lightgreen;
+      background: lightslategray;
     }
   </style>
 <body>
@@ -19,16 +19,14 @@
   </ul>
 
   <p>
-    This page is originally <b>green</b>, if you click the button it will turn <b>yellow</b>.
+    This page is originally <b>grey</b>, when you navigate away from the page, it turns <b>pink</b>.
   </p>
-
-  <button id="change_background">Change background</button>
 
 <script lang="js">
 
-window.document.getElementById("change_background").addEventListener("click", () => {
-  document.body.style.backgroundColor = "lightyellow";
-});
+window.onbeforeunload = () => {
+  document.body.style.backgroundColor = "lightpink";
+}
 
 </script>
 </body>
