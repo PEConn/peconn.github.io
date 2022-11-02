@@ -1,0 +1,33 @@
+<html>
+  <head><title>Index</title></head>
+  <link rel="stylesheet" href="style.css">
+  <style type="text/css">
+    body {
+      background: lightcoral;
+    }
+  </style>
+<body>
+  <h1>Page 2</h1>
+
+  <div>
+    We have no state.
+  </div>
+
+  <p>Links:</p>
+  <ul>
+    <li><a href="index.html">Index</a></li>
+    <li><a href="page1.html">Page 1</a></li>
+    <li><a href="page2.html">Page 2</a></li>
+    <li><a href="https://www.example.com/">example.com</a></li>
+  </ul>
+
+  <button id="change_history">Add Page 1 to History</button>
+
+<script lang="js">
+
+window.document.getElementById("change_history").addEventListener("click", () => {
+  history.replaceState({}, "unused", "page1.html");
+});
+
+</script>
+</body>

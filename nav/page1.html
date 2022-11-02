@@ -1,0 +1,37 @@
+<html>
+  <head><title>Index</title></head>
+  <link rel="stylesheet" href="style.css">
+  <style type="text/css">
+    body {
+      background: lightgreen;
+    }
+  </style>
+<body>
+  <h1>Page 1</h1>
+
+  <p>Links:</p>
+  <ul>
+    <li><a href="index.html">Index</a></li>
+    <li><a href="page1.html">Page 1</a></li>
+    <li><a href="page2.html">Page 2</a></li>
+  </ul>
+
+  <p>
+    This page is originally <b>green</b>, if you click the button it will turn <b>yellow</b>.
+    When you navigate away from the page, it turns <b>pink</b>.
+  </p>
+
+  <button id="change_background">Change background</button>
+
+<script lang="js">
+
+window.document.getElementById("change_background").addEventListener("click", () => {
+  document.body.style.backgroundColor = "lightyellow";
+});
+
+window.onbeforeunload = () => {
+  document.body.style.backgroundColor = "lightpink";
+}
+
+</script>
+</body>
