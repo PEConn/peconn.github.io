@@ -101,7 +101,7 @@
     const clientButton = document.getElementById('butMessageClient');
     clientButton.disabled = true;
     window.addEventListener("message", function(event) {
-      console.log("[PostMessage] Got initial message.");
+      console.log("[PostMessage] Got initial message from " + event.origin);
       appendOutput("Got initial message.");
 
       var port = event.ports[0];
