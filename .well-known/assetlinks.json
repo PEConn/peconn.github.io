@@ -1,4 +1,5 @@
-[{  
+[
+{  
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
@@ -7,7 +8,8 @@
       "C5:72:1A:94:C5:A5:A4:5E:B7:23:46:2E:D1:89:FF:61:92:36:72:A0:9B:8D:41:61:13:88:D8:87:22:1D:2D:84"
     ]
   }
-}, {
+},
+{
   "relation": ["delegate_permission/common.handle_all_urls"],  
   "target": {  
     "namespace": "android_app",  
@@ -18,7 +20,8 @@
       "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
     ]
   }  
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -27,7 +30,8 @@
       "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
     ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -38,7 +42,8 @@
       "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
     ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -47,7 +52,8 @@
      "64:2F:D4:BE:1C:4D:F8:36:2E:D3:50:C4:69:53:96:A1:3D:14:0A:23:AD:2F:BF:EB:6E:C6:E4:64:54:3B:34:C1"
    ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -56,7 +62,8 @@
      "B0:5B:2E:55:7A:46:A7:F9:38:3E:FD:7D:C5:F5:15:1D:86:D7:E6:9F:FB:7B:FE:00:A9:E0:CD:EC:54:43:1F:00"
    ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -65,7 +72,8 @@
      "F6:01:12:78:BD:E1:88:52:D5:0F:05:2A:5E:62:A7:67:43:83:51:C6:3D:43:39:D0:4E:27:C9:D8:F1:1B:A1:6F"
    ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -74,7 +82,8 @@
      "8C:18:7D:26:05:EE:2E:AF:4B:76:20:6F:39:7B:04:13:91:A2:E2:EC:C4:43:04:E1:25:E8:B8:E0:F4:73:5F:80"
    ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -83,7 +92,8 @@
      "21:7F:CC:8D:AC:1E:76:1D:2F:15:87:F2:59:41:C8:2F:AB:A5:9D:FC:83:FD:57:AB:79:E5:E6:5A:9C:00:C6:B9"
    ]
  }
-}, {
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -92,7 +102,18 @@
      "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
    ]
  }
-}, {
+},
+{
+ "relation": ["delegate_permission/common.handle_all_urls"],
+ "target": {
+   "namespace": "android_app",
+   "package_name": "com.example.postmessage",
+   "sha256_cert_fingerprints": [
+     "13:AE:74:F7:7A:4B:71:C9:EF:D2:30:BC:FD:57:FA:4C:93:88:DF:0E:47:5D:83:CF:E7:D2:B8:5B:7F:1B:04:F0"
+   ]
+ }
+},
+{
  "relation": ["delegate_permission/common.handle_all_urls"],
  "target": {
    "namespace": "android_app",
@@ -101,7 +122,8 @@
      "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
    ]
  }
-}, {
+},
+{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
@@ -120,4 +142,5 @@
       "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
     ]
   }
-}]
+}
+]
