@@ -142,5 +142,15 @@
       "B5:7D:59:28:8E:F8:A3:CB:CC:B4:DF:F4:C8:91:AF:E0:B2:84:EF:FF:F5:C8:A8:87:A6:34:38:1F:EF:2C:39:AE"
     ]
   }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.postmessage",
+    "sha256_cert_fingerprints": [
+      "13:AE:74:F7:7A:4B:71:C9:EF:D2:30:BC:FD:57:FA:4C:93:88:DF:0E:47:5D:83:CF:E7:D2:B8:5B:7F:1B:04:F0"
+    ]
+  }
 }
 ]
