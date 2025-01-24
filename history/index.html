@@ -1,0 +1,66 @@
+<html>
+  <head><title>Input test</title></head>
+  <style type="text/css">
+    body {
+      margin: 40px auto;
+      max-width: 650px;
+      line-height: 1.6;
+      font-size: 18px;
+      color: #444;
+      padding: 0 10px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+    }
+
+    input, textarea, button {
+      font-size: 18px;
+      margin: 0.5em 0;
+      box-sizing: border-box;
+    }
+  </style>
+<body>
+
+    <h1>Index</h1>
+
+    <a href="#heading">Same document link to Heading</a>
+
+    <br />
+    <a href="other_page.html">Link to other document</a>
+
+    <h2 id="heading">Heading</h2>
+
+    <pre id='log'></pre>
+
+    <button onclick="pushState()">Push state</button>
+    <button onclick="goBack()">Go Back</button>
+
+<script type="text/javascript">
+const log = (text) => {
+  const l = document.getElementById('log');
+  l.textContent = l.textContent + text + "\n";
+}
+
+function logHistoryState() {
+  log("History state: " + JSON.stringify(history.state));
+}
+logHistoryState();
+
+function pushState() {
+  history.pushState({
+    name: "Pushed state",
+    previous: history.state
+  }, "pushState example", "#noheading");
+  logHistoryState();
+}
+
+function goBack() {
+  history.back();
+  log("Gone back");
+  logHistoryState();
+}
+</script>
+
+</body>
+</html>
