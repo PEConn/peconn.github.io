@@ -23,6 +23,50 @@
             opacity: 0.5;
             text-decoration: line-through;
         }
+        /* Responsive table styles */
+        @media (max-width: 767px) { /* Tailwind's md breakpoint is 768px */
+            .responsive-table thead {
+                display: none;
+            }
+            .responsive-table tbody, .responsive-table tr {
+                display: block;
+            }
+            .responsive-table tr {
+                margin-bottom: 1.5rem;
+                border: 1px solid #e5e7eb; /* border-gray-200 */
+                border-radius: 0.75rem; /* rounded-xl */
+                overflow: hidden;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* shadow-md */
+            }
+            .responsive-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 1rem; /* py-3 px-4 */
+                border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+                text-align: right;
+            }
+            .responsive-table tr:last-child td:last-child {
+                border-bottom: 0;
+            }
+            .responsive-table td[data-label]::before {
+                content: attr(data-label);
+                font-weight: 500; /* font-medium */
+                color: #4b5563; /* text-gray-600 */
+                text-align: left;
+            }
+            .responsive-table td:first-child {
+                background-color: #f9fafb; /* bg-gray-50 */
+                font-weight: 500; /* font-medium */
+                padding: 1rem; /* p-4 */
+                flex-direction: column;
+                align-items: flex-start;
+                word-break: break-all;
+            }
+            .responsive-table td:first-child::before {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -37,7 +81,7 @@
 
             <!-- Table to display results -->
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                <table class="responsive-table min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="text-left py-3 px-4 font-semibold text-gray-600">Resource URL</th>
@@ -84,9 +128,6 @@
 
                         // --- Calculate timing metrics ---
                         // All times are in milliseconds. toFixed(2) rounds to 2 decimal places.
-                        console.log(entry.name);
-                        console.log(entry.domainLookupStart);
-                        console.log(entry.connectionStart);
                         const dnsTime = (entry.domainLookupEnd - entry.domainLookupStart).toFixed(2);
                         const tcpTime = (entry.connectEnd - entry.connectStart).toFixed(2);
                         // secureConnectionStart will be 0 if the resource is not loaded over HTTPS
@@ -113,12 +154,12 @@
                         // Populate the row with data
                         newRow.innerHTML = `
                             <td class="py-3 px-4 text-sm text-gray-700 font-medium" title="${fullUrl}">${url}</td>
-                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${dnsNotApplicable ? 'not-applicable' : ''}">${dnsTime}</td>
-                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${tcpNotApplicable ? 'not-applicable' : ''}">${tcpTime}</td>
-                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${tlsNotApplicable ? 'not-applicable' : ''}">${tlsTime}</td>
-                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${requestNotApplicable ? 'not-applicable' : ''}">${requestTime}</td>
-                            <td class="py-3 px-4 text-right text-sm text-gray-700">${downloadTime}</td>
-                            <td class="py-3 px-4 text-right text-sm font-medium text-gray-800">${totalTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${dnsNotApplicable ? 'not-applicable' : ''}" data-label="DNS (ms)">${dnsTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${tcpNotApplicable ? 'not-applicable' : ''}" data-label="TCP (ms)">${tcpTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${tlsNotApplicable ? 'not-applicable' : ''}" data-label="TLS (ms)">${tlsTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${requestNotApplicable ? 'not-applicable' : ''}" data-label="Request (TTFB)">${requestTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700" data-label="Download (ms)">${downloadTime}</td>
+                            <td class="py-3 px-4 text-right text-sm font-medium text-gray-800" data-label="Total (ms)">${totalTime}</td>
                         `;
 
                         // Add the new row to the table. Prepend navigation entry to show it at the top.
@@ -156,6 +197,3 @@
 
 </body>
 </html>
-
-
-
