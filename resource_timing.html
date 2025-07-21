@@ -109,9 +109,21 @@
     </div>
 
     <script>
+        function bothZeroOrUndefined(a, b) {
+            return ((a === undefined) || (a === 0.0)) && ((b === undefined) || (b === 0.0));
+        }
         // Check if the PerformanceObserver API is supported
         if ('PerformanceObserver' in window) {
             const timingTableBody = document.getElementById('timingTableBody');
+
+            // Function to format timing data for display
+            const formatTiming = (start, end) => {
+                if (start === undefined || end === undefined || (start === 0 && end === 0)) {
+                    return `n/a`;
+                }
+                const duration = (end - start).toFixed(2);
+                return `${start.toFixed(2)} to ${end.toFixed(2)} (${duration})`;
+            };
 
             // Function to process performance entries and update the table
             const processEntries = (entries) => {
@@ -127,22 +139,24 @@
                         }
 
                         // --- Calculate timing metrics ---
-                        // All times are in milliseconds. toFixed(2) rounds to 2 decimal places.
-                        const dnsTime = (entry.domainLookupEnd - entry.domainLookupStart).toFixed(2);
-                        const tcpTime = (entry.connectEnd - entry.connectStart).toFixed(2);
-                        // secureConnectionStart will be 0 if the resource is not loaded over HTTPS
-                        const tlsTime = entry.secureConnectionStart > 0 ? (entry.requestStart - entry.secureConnectionStart).toFixed(2) : '0.00';
-                        // Time to First Byte (TTFB)
-                        const requestTime = (entry.responseStart - entry.requestStart).toFixed(2);
-                        const downloadTime = (entry.responseEnd - entry.responseStart).toFixed(2);
-                        const totalTime = (entry.duration).toFixed(2);
+                        const dnsTime = formatTiming(entry.domainLookupStart, entry.domainLookupEnd);
+                        const tcpTime = formatTiming(entry.connectStart, entry.connectEnd);
+                        const tlsTime = formatTiming(entry.secureConnectionStart, entry.requestStart);
+                        const requestTime = formatTiming(entry.requestStart, entry.responseStart);
+                        const downloadTime = formatTiming(entry.responseStart, entry.responseEnd);
+                        const totalTime = formatTiming(entry.startTime, entry.responseEnd);
+
 
                         // --- Determine if a stage is not applicable (duration is zero) ---
                         // This can happen if the resource is cached, a connection is reused, or the stage doesn't apply (e.g. TLS for HTTP).
-                        const dnsNotApplicable = (entry.domainLookupStart === undefined) || (entry.domainLookupStart === 0.0);
-                        const tcpNotApplicable = (entry.connectStart === undefined) || (entry.connectStart === 0.0);
-                        const tlsNotApplicable = (entry.secureConnectionStart === undefined) || (entry.secureConnectionStart === 0.0);
-                        const requestNotApplicable = (entry.requestStart === undefined) || (entry.requestStart === 0.0);
+                        // const dnsNotApplicable = (entry.domainLookupStart === undefined) || (entry.domainLookupStart === 0.0);
+                        // const tcpNotApplicable = (entry.connectStart === undefined) || (entry.connectStart === 0.0);
+                        // const tlsNotApplicable = (entry.secureConnectionStart === undefined) || (entry.secureConnectionStart === 0.0);
+                        // const requestNotApplicable = (entry.requestStart === undefined) || (entry.requestStart === 0.0);
+                        const dnsNotApplicable = bothZeroOrUndefined(entry.domainLookupStart, entry.domainLookupEnd);
+                        const tcpNotApplicable = bothZeroOrUndefined(entry.connectStart, entry.connectEnd);
+                        const tlsNotApplicable = bothZeroOrUndefined(entry.secureConnectionStart, entry.secureConnectionEnd);
+                        const requestNotApplicable = bothZeroOrUndefined(entry.requestStart, entry.requestEnd);
 
                         // Use a specific name for the navigation entry, otherwise truncate the URL
                         const url = entry.entryType === 'navigation' 
