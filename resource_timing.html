@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Timing API Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple animation for new rows */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        /* Style for timings that are not applicable */
+        .not-applicable {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Resource Timing API Demo</h1>
+            <p class="mt-2 text-lg text-gray-600">Observing network timing for page resources.</p>
+        </header>
+
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+
+            <!-- Table to display results -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-600">Resource URL</th>
+                            <th class="text-right py-3 px-4 font-semibold text-gray-600" title="Domain Name System lookup time">DNS (ms)</th>
+                            <th class="text-right py-3 px-4 font-semibold text-gray-600" title="TCP connection time">TCP (ms)</th>
+                            <th class="text-right py-3 px-4 font-semibold text-gray-600" title="Time to establish a secure connection">TLS (ms)</th>
+                            <th class="text-right py-3 px-4 font-semibold text-gray-600" title="Time from sending request to first byte of response">Request (TTFB)</th>
+                            <th class="text-right py-3 px-4 font-semibold text-gray-600" title="Time to download the resource content">Download (ms)</th>
+                            <th class="text-right py-3 px-4 font-semibold text-gray-600" title="Total time from start to finish">Total (ms)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timingTableBody">
+                        <!-- Timing data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+                 <div id="no-observer-message" class="hidden text-center p-4 bg-yellow-100 text-yellow-800 rounded-lg mt-4">
+                    Your browser does not support the PerformanceObserver API. Please try a modern browser.
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-8 text-gray-500 text-sm">
+            <p>Reload the page to clear results. Timings are in milliseconds (ms).</p>
+        </footer>
+    </div>
+
+    <script>
+        // Check if the PerformanceObserver API is supported
+        if ('PerformanceObserver' in window) {
+            const timingTableBody = document.getElementById('timingTableBody');
+
+            // Function to process performance entries and update the table
+            const processEntries = (entries) => {
+                entries.forEach(entry => {
+                    // We are interested in 'resource' and 'navigation' type entries
+                    if (entry.entryType === 'resource' || entry.entryType === 'navigation') {
+                        // Create a new row for the table
+                        const newRow = document.createElement('tr');
+                        newRow.className = 'border-t border-gray-200 fade-in';
+                        if (entry.entryType === 'navigation') {
+                            // Add a subtle background to highlight the main page load
+                            newRow.classList.add('bg-blue-50');
+                        }
+
+                        // --- Calculate timing metrics ---
+                        // All times are in milliseconds. toFixed(2) rounds to 2 decimal places.
+                        console.log(entry.name);
+                        console.log(entry.domainLookupStart);
+                        console.log(entry.connectionStart);
+                        const dnsTime = (entry.domainLookupEnd - entry.domainLookupStart).toFixed(2);
+                        const tcpTime = (entry.connectEnd - entry.connectStart).toFixed(2);
+                        // secureConnectionStart will be 0 if the resource is not loaded over HTTPS
+                        const tlsTime = entry.secureConnectionStart > 0 ? (entry.requestStart - entry.secureConnectionStart).toFixed(2) : '0.00';
+                        // Time to First Byte (TTFB)
+                        const requestTime = (entry.responseStart - entry.requestStart).toFixed(2);
+                        const downloadTime = (entry.responseEnd - entry.responseStart).toFixed(2);
+                        const totalTime = (entry.duration).toFixed(2);
+
+                        // --- Determine if a stage is not applicable (duration is zero) ---
+                        // This can happen if the resource is cached, a connection is reused, or the stage doesn't apply (e.g. TLS for HTTP).
+                        const dnsNotApplicable = (entry.domainLookupStart === undefined) || (entry.domainLookupStart === 0.0);
+                        const tcpNotApplicable = (entry.connectStart === undefined) || (entry.connectStart === 0.0);
+                        const tlsNotApplicable = (entry.secureConnectionStart === undefined) || (entry.secureConnectionStart === 0.0);
+                        const requestNotApplicable = (entry.requestStart === undefined) || (entry.requestStart === 0.0);
+
+                        // Use a specific name for the navigation entry, otherwise truncate the URL
+                        const url = entry.entryType === 'navigation' 
+                            ? 'This Page (Document)' 
+                            : entry.name.length > 50 ? `${entry.name.substring(0, 50)}...` : entry.name;
+                        
+                        const fullUrl = entry.name;
+
+                        // Populate the row with data
+                        newRow.innerHTML = `
+                            <td class="py-3 px-4 text-sm text-gray-700 font-medium" title="${fullUrl}">${url}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${dnsNotApplicable ? 'not-applicable' : ''}">${dnsTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${tcpNotApplicable ? 'not-applicable' : ''}">${tcpTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${tlsNotApplicable ? 'not-applicable' : ''}">${tlsTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700 ${requestNotApplicable ? 'not-applicable' : ''}">${requestTime}</td>
+                            <td class="py-3 px-4 text-right text-sm text-gray-700">${downloadTime}</td>
+                            <td class="py-3 px-4 text-right text-sm font-medium text-gray-800">${totalTime}</td>
+                        `;
+
+                        // Add the new row to the table. Prepend navigation entry to show it at the top.
+                        if (entry.entryType === 'navigation') {
+                            timingTableBody.prepend(newRow);
+                        } else {
+                            timingTableBody.appendChild(newRow);
+                        }
+                    }
+                });
+            };
+
+            // Create a PerformanceObserver to watch for resource loading
+            const observer = new PerformanceObserver((list) => {
+                processEntries(list.getEntries());
+            });
+
+            // Start observing.
+            // 'buffered: true' ensures we get entries for resources that loaded before the observer was created.
+            observer.observe({ type: 'resource', buffered: true });
+
+            // Get the navigation timing for the page itself on load
+            window.addEventListener('load', () => {
+                const navEntries = performance.getEntriesByType('navigation');
+                if (navEntries.length > 0) {
+                    processEntries(navEntries);
+                }
+            });
+
+        } else {
+            // Show a message if the browser doesn't support the API
+            document.getElementById('no-observer-message').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
+
+
+
