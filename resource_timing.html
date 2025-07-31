@@ -75,6 +75,7 @@
         <header class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Resource Timing API Demo</h1>
             <p class="mt-2 text-lg text-gray-600">Observing network timing for page resources.</p>
+            <p class="mt-2 text-lg text-gray-600"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Performance_API/Resource_timing">Documentation</a></p>
         </header>
 
         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
@@ -140,8 +141,8 @@
 
                         // --- Calculate timing metrics ---
                         const dnsTime = formatTiming(entry.domainLookupStart, entry.domainLookupEnd);
-                        const tcpTime = formatTiming(entry.connectStart, entry.connectEnd);
-                        const tlsTime = formatTiming(entry.secureConnectionStart, entry.requestStart);
+                        const tcpTime = formatTiming(entry.connectStart, entry.secureConnectionStart);
+                        const tlsTime = formatTiming(entry.secureConnectionStart, entry.connectEnd);
                         const requestTime = formatTiming(entry.requestStart, entry.responseStart);
                         const downloadTime = formatTiming(entry.responseStart, entry.responseEnd);
                         const totalTime = formatTiming(entry.startTime, entry.responseEnd);
@@ -154,9 +155,9 @@
                         // const tlsNotApplicable = (entry.secureConnectionStart === undefined) || (entry.secureConnectionStart === 0.0);
                         // const requestNotApplicable = (entry.requestStart === undefined) || (entry.requestStart === 0.0);
                         const dnsNotApplicable = bothZeroOrUndefined(entry.domainLookupStart, entry.domainLookupEnd);
-                        const tcpNotApplicable = bothZeroOrUndefined(entry.connectStart, entry.connectEnd);
-                        const tlsNotApplicable = bothZeroOrUndefined(entry.secureConnectionStart, entry.secureConnectionEnd);
-                        const requestNotApplicable = bothZeroOrUndefined(entry.requestStart, entry.requestEnd);
+                        const tcpNotApplicable = bothZeroOrUndefined(entry.connectStart, entry.secureConnectionStart);
+                        const tlsNotApplicable = bothZeroOrUndefined(entry.secureConnectionStart, entry.connectEnd);
+                        const requestNotApplicable = bothZeroOrUndefined(entry.requestStart, entry.responseStart);
 
                         // Use a specific name for the navigation entry, otherwise truncate the URL
                         const url = entry.entryType === 'navigation' 
