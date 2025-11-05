@@ -1,4 +1,4 @@
-
+# Helix Notes
 
 Useful commands:
 - Open buffer picker: `<space> b`.
@@ -6,10 +6,12 @@ Useful commands:
 
 - Change your config: `:config-open` and `config-reload`.
 
-- Go somewhere - `b...`.
-- Go to a word on screen: `gw`.
+- Go somewhere - `g...`.
+  - Go to a word on screen: `gw`.
 - Add something around selection `ms...`.
 - To select between quotes `mi"`.
+
+- Repeat the last `Fx` or `tx` command: `Alt + .`.
 
 My config:
 
@@ -25,6 +27,10 @@ auto-pairs = false
 [editor.soft-wrap]
 enabled = true
 wrap-indicator = ""
+
+[keys.insert]
+"C-t" = "indent"
+"C-u" = "unindent"
 ```
 
 Links:
