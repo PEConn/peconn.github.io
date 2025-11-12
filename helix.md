@@ -1,10 +1,7 @@
 # Helix Notes
 
 Useful commands:
-- Open buffer picker: `<space> b`.
-- Open file picker: `<space> F`.
-
-- Change your config: `:config-open` and `config-reload`.
+- Open file picker: `<space> F`. (Open buffer picker: `<space> b`.)
 
 - Go somewhere - `g...`.
   - Go to a word on screen: `gw`.
@@ -12,6 +9,8 @@ Useful commands:
 - To select between quotes `mi"`.
 
 - Repeat the last `Fx` or `tx` command: `Alt + .`.
+
+- Change your config: `:config-open` and `config-reload`.
 
 My config:
 
@@ -25,7 +24,7 @@ true-color = true
 auto-pairs = false
 
 [editor.soft-wrap]
-enabled = true
+enable = true
 wrap-indicator = ""
 
 [keys.insert]
@@ -36,3 +35,6 @@ wrap-indicator = ""
 Links:
 - [Config options](https://docs.helix-editor.com/configuration.html)
 - [Better documentation](https://helix-nikita-revencos-projects.vercel.app/start-here/basics)
+
+Troubleshooting:
+- If syntax highlighting isn't working, try `hx -g fetch` and `hx -g build` ([source](https://github.com/helix-editor/helix/issues/3634#issuecomment-1234381661)).
