@@ -1,2 +1,3 @@
 # Folders with dotfiles are ignored by default.
 include: [.well-known]
+theme: jekyll-theme-hacker
