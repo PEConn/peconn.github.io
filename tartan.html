@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tartan Noir Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --tartan-red: #7b1d1d;
+            --tartan-green: #1d3a1d;
+            --tartan-blue: #1d2a3a;
+        }
+
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .state-none { border-left: 6px solid #4b5563; }
+        .state-have { border-left: 6px solid #d97706; }
+        .state-read { border-left: 6px solid #059669; }
+
+        .book-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .book-card:active {
+            transform: scale(0.98);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100 min-h-screen">
+
+    <div class="max-w-3xl mx-auto px-4 py-8">
+        <header class="flex justify-between items-center mb-10 border-b-2 border-stone-200 dark:border-stone-800 pb-6">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight text-stone-800 dark:text-stone-100">
+                    Tartan <span class="text-red-800 dark:text-red-500">Noir</span> Tracker
+                </h1>
+                <p class="text-stone-500 mt-2 italic">Tracking the shadows of Scottish crime fiction.</p>
+            </div>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors">
+                <svg id="sun-icon" class="hidden w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 18v1m9-9h1M4 12H3m15.364-6.364l.707-.707M6.343 17.657l-.707.707M16.95 16.95l.707.707M7.05 7.05l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg>
+                <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+        </header>
+
+        <main id="app-container">
+            <!-- Web Components will be rendered here -->
+        </main>
+
+        <footer class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-800 text-center text-sm text-stone-500">
+            Tap a book to cycle through states: 
+            <span class="inline-block w-3 h-3 bg-gray-500 rounded-full ml-2"></span> Don't Have
+            <span class="inline-block w-3 h-3 bg-amber-500 rounded-full ml-2"></span> Own
+            <span class="inline-block w-3 h-3 bg-emerald-500 rounded-full ml-2"></span> Read
+        </footer>
+    </div>
+
+    <!-- Web Component Templates -->
+    <template id="author-section-template">
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold border-l-4 border-red-800 pl-4 author-name"></h2>
+                <span class="text-sm font-mono text-stone-400 stats">0/0 Read</span>
+            </div>
+            <div class="grid gap-3 book-list">
+                <!-- Books injected here -->
+            </div>
+        </section>
+    </template>
+
+    <template id="book-item-template">
+        <div class="book-card bg-white dark:bg-stone-900 p-4 rounded-lg shadow-sm flex justify-between items-center group">
+            <div>
+                <h3 class="font-semibold book-title"></h3>
+                <p class="text-xs text-stone-400 book-year"></p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="status-label text-xs font-bold uppercase tracking-widest px-2 py-1 rounded"></span>
+                <div class="status-icon"></div>
+            </div>
+        </div>
+    </template>
+
+    <script type="module">
+        const INITIAL_DATA = [
+            {
+                name: "Ian Rankin",
+                series: "Inspector Rebus",
+                books: [
+                    { title: "Knots and Crosses", year: 1987 },
+                    { title: "Hide and Seek", year: 1991 },
+                    { title: "Tooth and Nail", year: 1992 },
+                    { title: "Strip Jack", year: 1992 },
+                    { title: "The Black Book", year: 1993 },
+                    { title: "Mortal Causes", year: 1994 },
+                    { title: "Let It Bleed", year: 1996 },
+                    { title: "Black and Blue", year: 1997 },
+                    { title: "The Hanging Garden", year: 1998 },
+                    { title: "Dead Souls", year: 1999 },
+                    { title: "Set in Darkness", year: 2000 },
+                    { title: "The Falls", year: 2001 },
+                    { title: "Resurrection Men", year: 2002 },
+                    { title: "A Question of Blood", year: 2003 },
+                    { title: "Fleshmarket Close", year: 2004 },
+                    { title: "The Naming of the Dead", year: 2006 },
+                    { title: "Exit Music", year: 2007 },
+                    { title: "Standing in Another Man's Grave", year: 2012 },
+                    { title: "Saints of the Shadow Bible", year: 2013 },
+                    { title: "Even Dogs in the Wild", year: 2015 },
+                    { title: "Rather Be the Devil", year: 2016 },
+                    { title: "In a House of Lies", year: 2018 },
+                    { title: "A Song for the Dark Times", year: 2020 },
+                    { title: "A Heart Full of Headstones", year: 2022 },
+                    { title: "Midnight & Blue", year: 2024 }
+                ]
+            },
+            {
+                name: "Val McDermid",
+                series: "Tony Hill & Carol Jordan",
+                books: [
+                    { title: "The Mermaids Singing", year: 1995 },
+                    { title: "The Wire in the Blood", year: 1997 },
+                    { title: "The Last Temptation", year: 2002 },
+                    { title: "The Torment of Others", year: 2004 },
+                    { title: "Beneath the Bleeding", year: 2007 },
+                    { title: "Fever of the Bone", year: 2009 },
+                    { title: "The Retribution", year: 2011 },
+                    { title: "Cross and Burn", year: 2013 },
+                    { title: "Splinter the Silence", year: 2015 },
+                    { title: "Insidious Intent", year: 2017 },
+                    { title: "How the Dead Speak", year: 2019 }
+                ]
+            }
+        ];
+
+        // State constants
+        const STATES = ['none', 'have', 'read'];
+        const STATE_LABELS = {
+            'none': "Don't Have",
+            'have': "Owned",
+            'read': "Finished"
+        };
+        const STATE_CLASSES = {
+            'none': "state-none bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-600",
+            'have': "state-have bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-500",
+            'read': "state-read bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-500"
+        };
+
+        class BookItem extends HTMLElement {
+            constructor() {
+                super();
+                this.template = document.getElementById('book-item-template');
+            }
+
+            set data(val) {
+                this._data = val;
+                this.render();
+            }
+
+            render() {
+                const content = this.template.content.cloneNode(true);
+                const card = content.querySelector('.book-card');
+                
+                content.querySelector('.book-title').textContent = this._data.title;
+                content.querySelector('.book-year').textContent = this._data.year;
+                
+                const label = content.querySelector('.status-label');
+                label.textContent = STATE_LABELS[this._data.state];
+                
+                // Add conditional classes
+                card.className = `book-card bg-white dark:bg-stone-900 p-4 rounded-lg shadow-sm flex justify-between items-center group ${STATE_CLASSES[this._data.state]}`;
+                
+                card.addEventListener('click', () => {
+                    const currentIndex = STATES.indexOf(this._data.state);
+                    const nextIndex = (currentIndex + 1) % STATES.length;
+                    this._data.state = STATES[nextIndex];
+                    this.dispatchEvent(new CustomEvent('state-change', { 
+                        detail: this._data,
+                        bubbles: true 
+                    }));
+                    this.render();
+                });
+
+                this.replaceChildren(content);
+            }
+        }
+
+        class AuthorSection extends HTMLElement {
+            constructor() {
+                super();
+                this.template = document.getElementById('author-section-template');
+            }
+
+            set data(val) {
+                this._data = val;
+                this.render();
+            }
+
+            render() {
+                const content = this.template.content.cloneNode(true);
+                content.querySelector('.author-name').textContent = `${this._data.name} (${this._data.series})`;
+                
+                const readCount = this._data.books.filter(b => b.state === 'read').length;
+                content.querySelector('.stats').textContent = `${readCount}/${this._data.books.length} Read`;
+
+                const list = content.querySelector('.book-list');
+                this._data.books.forEach(book => {
+                    const item = document.createElement('book-item');
+                    item.data = book;
+                    list.appendChild(item);
+                });
+
+                this.replaceChildren(content);
+            }
+        }
+
+        customElements.define('book-item', BookItem);
+        customElements.define('author-section', AuthorSection);
+
+        // App Logic
+        class App {
+            constructor() {
+                this.container = document.getElementById('app-container');
+                this.loadData();
+                this.initTheme();
+                this.render();
+
+                document.addEventListener('state-change', (e) => {
+                    this.saveData();
+                    this.updateStats();
+                });
+            }
+
+            loadData() {
+                const saved = localStorage.getItem('tartan-noir-data');
+                if (saved) {
+                    this.data = JSON.parse(saved);
+                } else {
+                    this.data = INITIAL_DATA.map(author => ({
+                        ...author,
+                        books: author.books.map(book => ({ ...book, state: 'none' }))
+                    }));
+                    this.saveData();
+                }
+            }
+
+            saveData() {
+                localStorage.setItem('tartan-noir-data', JSON.stringify(this.data));
+            }
+
+            updateStats() {
+                // Re-render to update author-level stats
+                this.render();
+            }
+
+            render() {
+                this.container.innerHTML = '';
+                this.data.forEach(author => {
+                    const section = document.createElement('author-section');
+                    section.data = author;
+                    this.container.appendChild(section);
+                });
+            }
+
+            initTheme() {
+                const toggle = document.getElementById('theme-toggle');
+                const sun = document.getElementById('sun-icon');
+                const moon = document.getElementById('moon-icon');
+                
+                const applyTheme = (dark) => {
+                    if (dark) {
+                        document.documentElement.classList.add('dark');
+                        sun.classList.remove('hidden');
+                        moon.classList.add('hidden');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        sun.classList.add('hidden');
+                        moon.classList.remove('hidden');
+                    }
+                };
+
+                const isDark = localStorage.getItem('theme') === 'dark' || 
+                              (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                
+                applyTheme(isDark);
+
+                toggle.addEventListener('click', () => {
+                    const nowDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
+                    applyTheme(nowDark);
+                });
+            }
+        }
+
+        new App();
+    </script>
+</body>
+</html>
+
