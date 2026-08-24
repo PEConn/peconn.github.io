@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>WebView v149 Viewport Regression Repro</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Container attempting to cover 100 dynamic viewport height plus bottom safe area */
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+      
+      /* Regression trigger: 100dvh combined with safe-area-inset-bottom */
+      height: 100dvh;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      
+      background-color: #1c1c1e;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .header {
+      padding: 20px;
+      background-color: #0071e3;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Bottom fixed/pinned element that gets clipped or miscalculated */
+    .bottom-bar {
+      padding: 16px;
+      background-color: #ff3b30;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="header">
+      Top Header
+    </div>
+    
+    <div class="content">
+      <h2>WebView v149 Viewport Repro</h2>
+      <p>In WebView v149.0.7827.160, combining <code>100dvh</code> with <code>env(safe-area-inset-bottom)</code> causes the bottom element to clip or calculate height incorrectly behind the Android system navigation bar.</p>
+    </div>
+
+    <div class="bottom-bar">
+      BOTTOM ACTION BAR (This element gets clipped/cut off)
+    </div>
+  </div>
+
+</body>
+</html>
