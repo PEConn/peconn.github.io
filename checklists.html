@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Checklists</title>
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
+  <style>
+    :root {
+      --global-font-size: 15px;
+      --page-width: 680px;
+    }
+
+    body {
+      padding: 1.5rem 1rem 3rem 1rem;
+    }
+
+    checklist-section {
+      display: block;
+    }
+
+    checklist-item {
+      display: block;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--font-color, #a8a8a8);
+    }
+
+    .header-title-group h1 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.8rem;
+    }
+
+    .header-date {
+      color: var(--secondary-color, #999);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .section-card {
+      margin-bottom: 2rem;
+      padding: 1.25rem;
+    }
+
+    .section-card legend {
+      font-weight: bold;
+      font-size: 1.15rem;
+      padding: 0 0.5rem;
+    }
+
+    .badge-count {
+      font-size: 0.85rem;
+      font-weight: normal;
+      opacity: 0.75;
+      margin-left: 0.5rem;
+    }
+
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .checklist-item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      user-select: none;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .checklist-item-row input[type="checkbox"] {
+      cursor: pointer;
+      width: 1.2rem;
+      height: 1.2rem;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .checklist-item-row input[type="checkbox"]:checked + .item-label {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+
+    .item-label {
+      font-size: 1.05rem;
+      transition: opacity 0.15s ease, text-decoration 0.15s ease;
+    }
+
+    .btn-reset {
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="terminal">
+  <div class="container">
+    <header class="header-bar">
+      <div class="header-title-group">
+        <h1>Daily Checklists</h1>
+        <p class="header-date" id="header-date">Loading date...</p>
+      </div>
+      <div>
+        <button id="reset-btn" class="btn btn-default btn-reset" title="Uncheck all items for today">Reset Today</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Morning Section -->
+      <checklist-section section-id="morning" title="Morning">
+        <checklist-item item-id="morning-cats" label="Cats"></checklist-item>
+        <checklist-item item-id="morning-sterilise" label="Sterilise"></checklist-item>
+        <checklist-item item-id="morning-dishes" label="Dishes"></checklist-item>
+        <checklist-item item-id="morning-heating" label="Heating"></checklist-item>
+        <checklist-item item-id="morning-kim-breakfast" label="Kim breakfast"></checklist-item>
+        <checklist-item item-id="morning-pick-tasks" label="Pick tasks"></checklist-item>
+        <checklist-item item-id="morning-exercise" label="Exercise"></checklist-item>
+      </checklist-section>
+
+      <!-- Day Section -->
+      <checklist-section section-id="day" title="Day">
+        <checklist-item item-id="day-anki" label="Anki"></checklist-item>
+        <checklist-item item-id="day-pills" label="Pills"></checklist-item>
+        <checklist-item item-id="day-take-protein-shake" label="Take protein shake"></checklist-item>
+        <checklist-item item-id="day-stretch" label="Stretch"></checklist-item>
+      </checklist-section>
+
+      <!-- Evening Section -->
+      <checklist-section section-id="evening" title="Evening">
+        <checklist-item item-id="evening-tea" label="Tea"></checklist-item>
+        <checklist-item item-id="evening-cats" label="Cats"></checklist-item>
+        <checklist-item item-id="evening-protein-shake-prep" label="Protein shake prep"></checklist-item>
+        <checklist-item item-id="evening-sterilise" label="Sterilise"></checklist-item>
+        <checklist-item item-id="evening-dishes" label="Dishes"></checklist-item>
+        <checklist-item item-id="evening-accomplishments" label="Accomplishments"></checklist-item>
+      </checklist-section>
+    </main>
+  </div>
+
+  <script>
+    // Web Component: <checklist-item>
+    class ChecklistItem extends HTMLElement {
+      static get observedAttributes() {
+        return ['checked'];
+      }
+
+      connectedCallback() {
+        this.render();
+      }
+
+      get itemId() {
+        return this.getAttribute('item-id') || '';
+      }
+
+      get label() {
+        return this.getAttribute('label') || this.textContent.trim();
+      }
+
+      get checked() {
+        const input = this.querySelector('input[type="checkbox"]');
+        return input ? input.checked : this.hasAttribute('checked');
+      }
+
+      set checked(val) {
+        if (val) {
+          this.setAttribute('checked', '');
+        } else {
+          this.removeAttribute('checked');
+        }
+        const input = this.querySelector('input[type="checkbox"]');
+        if (input) {
+          input.checked = Boolean(val);
+        }
+      }
+
+      attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'checked') {
+          const input = this.querySelector('input[type="checkbox"]');
+          if (input) {
+            input.checked = this.hasAttribute('checked');
+          }
+        }
+      }
+
+      render() {
+        if (this._rendered) return;
+        this._rendered = true;
+
+        const isChecked = this.hasAttribute('checked');
+        this.innerHTML = `
+          <label class="checklist-item-row">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} data-key="${this.itemId}">
+            <span class="item-label">${this.label}</span>
+          </label>
+        `;
+
+        const input = this.querySelector('input[type="checkbox"]');
+        input.addEventListener('change', () => {
+          if (input.checked) {
+            this.setAttribute('checked', '');
+          } else {
+            this.removeAttribute('checked');
+          }
+          this.dispatchEvent(new CustomEvent('checklist-item-change', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              itemId: this.itemId,
+              checked: input.checked
+            }
+          }));
+        });
+      }
+    }
+    customElements.define('checklist-item', ChecklistItem);
+
+    // Web Component: <checklist-section>
+    class ChecklistSection extends HTMLElement {
+      connectedCallback() {
+        this.render();
+      }
+
+      get sectionId() {
+        return this.getAttribute('section-id') || '';
+      }
+
+      get title() {
+        return this.getAttribute('title') || 'Section';
+      }
+
+      render() {
+        if (this._rendered) return;
+        this._rendered = true;
+
+        const existingItems = Array.from(this.querySelectorAll('checklist-item'));
+        this.innerHTML = `
+          <fieldset class="section-card">
+            <legend>${this.title} <span class="badge-count" id="count-${this.sectionId}"></span></legend>
+            <div class="checklist-items"></div>
+          </fieldset>
+        `;
+
+        const container = this.querySelector('.checklist-items');
+        existingItems.forEach(item => container.appendChild(item));
+        this.updateCount();
+      }
+
+      updateCount() {
+        const items = this.querySelectorAll('checklist-item');
+        const total = items.length;
+        let checked = 0;
+        items.forEach(item => {
+          if (item.checked) checked++;
+        });
+        const badge = this.querySelector('.badge-count');
+        if (badge) {
+          badge.textContent = `[${checked}/${total}]`;
+        }
+      }
+    }
+    customElements.define('checklist-section', ChecklistSection);
+
+    // Main App Logic: LocalStorage Persistence & Daily Reset
+    (function () {
+      const STORAGE_KEY = 'daily_checklists_state';
+
+      function getTodayString() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      function renderHeaderDate() {
+        const dateElement = document.getElementById('header-date');
+        if (!dateElement) return;
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = new Date().toLocaleDateString(undefined, options);
+      }
+
+      function loadSavedItems() {
+        const today = getTodayString();
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const data = JSON.parse(raw);
+            if (data && data.date === today && typeof data.items === 'object' && data.items !== null) {
+              return data.items;
+            }
+          }
+        } catch (err) {
+          console.error('Error loading checklist state from localStorage:', err);
+        }
+
+        // Different date or missing data -> reset for today
+        const freshItems = {};
+        saveState(freshItems);
+        return freshItems;
+      }
+
+      function saveState(items) {
+        const state = {
+          date: getTodayString(),
+          items: items
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (err) {
+          console.error('Error saving checklist state to localStorage:', err);
+        }
+      }
+
+      function updateAllCounts() {
+        document.querySelectorAll('checklist-section').forEach(sec => sec.updateCount());
+      }
+
+      function init() {
+        renderHeaderDate();
+
+        const savedItems = loadSavedItems();
+        const items = document.querySelectorAll('checklist-item');
+
+        // Restore saved states onto web components
+        items.forEach(item => {
+          item.checked = Boolean(savedItems[item.itemId]);
+        });
+
+        // Listen for changes from any checklist-item
+        document.addEventListener('checklist-item-change', function (e) {
+          const { itemId, checked } = e.detail;
+          if (itemId) {
+            savedItems[itemId] = checked;
+            saveState(savedItems);
+            updateAllCounts();
+          }
+        });
+
+        // Manual reset button
+        const resetBtn = document.getElementById('reset-btn');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            if (window.confirm('Reset all checkboxes for today?')) {
+              items.forEach(item => {
+                item.checked = false;
+                if (item.itemId) {
+                  savedItems[item.itemId] = false;
+                }
+              });
+              saveState({});
+              updateAllCounts();
+            }
+          });
+        }
+
+        updateAllCounts();
+      }
+
+      // Initialize on DOM ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
