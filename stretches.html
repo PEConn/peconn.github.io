@@ -197,11 +197,12 @@
         `;
 
         this.innerHTML = `
-          <div id="card-${this.stretchId}" class="stretch-card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4">
-            <div class="flex gap-4">
+          <label id="card-${this.stretchId}" class="stretch-card block bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4 cursor-pointer select-none">
+            <div class="flex items-start gap-4">
+              <input type="checkbox" class="done-checkbox mt-1 w-5 h-5 accent-green-600 rounded border-slate-300 cursor-pointer flex-shrink-0">
               <!-- image would go here -->
               <div class="flex-1">
-                <h3 class="font-bold text-lg leading-tight mb-1">${this.title}</h3>
+                <h3 class="stretch-title font-bold text-lg leading-tight mb-1">${this.title}</h3>
                 <div class="flex gap-3 text-xs font-bold text-blue-600 mb-2">
                   <span class="bg-blue-50 px-2 py-0.5 rounded">Reps: ${this.reps}</span>
                   <span class="bg-blue-50 px-2 py-0.5 rounded">Sets: ${this.sets}</span>
@@ -209,13 +210,10 @@
                 <p class="text-xs text-slate-500 leading-relaxed line-clamp-2">${this.description}</p>
               </div>
             </div>
-            <div class="mt-4 flex gap-2">
-              <button type="button" class="done-btn flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all"></button>
-            </div>
-          </div>
+          </label>
         `;
 
-        this.querySelector('.done-btn').addEventListener('click', () => {
+        this.querySelector('.done-checkbox').addEventListener('change', () => {
           toggleDone(this.stretchId);
         });
 
@@ -225,13 +223,14 @@
       updateState() {
         if (!this._rendered) return;
         const card = this.querySelector('.stretch-card');
-        const btn = this.querySelector('.done-btn');
+        const checkbox = this.querySelector('.done-checkbox');
+        const title = this.querySelector('.stretch-title');
         const isDone = this.done;
         const isHighlighted = this.highlighted;
 
-        card.className = `stretch-card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4 ${isDone ? 'done-card' : ''} ${isHighlighted ? 'highlight-card' : ''}`;
-        btn.className = `done-btn flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${isDone ? 'bg-slate-200 text-slate-600' : 'bg-green-100 text-green-700 hover:bg-green-200'}`;
-        btn.textContent = isDone ? '✓ Completed' : 'Mark as Done';
+        card.className = `stretch-card block bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4 cursor-pointer select-none ${isDone ? 'done-card' : ''} ${isHighlighted ? 'highlight-card' : ''}`;
+        checkbox.checked = isDone;
+        title.className = `stretch-title font-bold text-lg leading-tight mb-1 ${isDone ? 'line-through' : ''}`;
       }
     }
     customElements.define('stretch-card', StretchCard);
@@ -243,25 +242,34 @@
       return Array.from(document.querySelectorAll('stretch-card'));
     }
 
+    function getTodayKey() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      return `caton_stretches_${year}-${month}-${day}`;
+    }
+
     function init() {
       // Display current date
       const now = new Date();
       const dateStr = now.toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long'});
       document.getElementById('date-display').innerText = dateStr;
 
-      // Load progress from localStorage
-      const todayKey = 'caton_stretches_' + now.toISOString().split('T')[0];
+      // Load progress from localStorage (resets daily)
+      const todayKey = getTodayKey();
       const stored = localStorage.getItem(todayKey);
       if (stored) {
         completedIds = JSON.parse(stored);
       } else {
         // Clear old dates
-        for (let i = 0; i < localStorage.length; i++) {
+        for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i);
-          if (key.startsWith('caton_stretches_')) {
+          if (key && key.startsWith('caton_stretches_')) {
             localStorage.removeItem(key);
           }
         }
+        save();
       }
 
       render();
@@ -280,9 +288,7 @@
     }
 
     function save() {
-      const now = new Date();
-      const todayKey = 'caton_stretches_' + now.toISOString().split('T')[0];
-      localStorage.setItem(todayKey, JSON.stringify(completedIds));
+      localStorage.setItem(getTodayKey(), JSON.stringify(completedIds));
     }
 
     function resetAll() {
