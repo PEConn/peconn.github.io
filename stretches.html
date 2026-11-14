@@ -7,6 +7,19 @@
   <title>Caton Clinic Stretch Tracker</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    stretch-card {
+      display: block;
+      order: 0;
+    }
+
+    stretch-card[highlighted] {
+      order: -1;
+    }
+
+    stretch-card[done] {
+      order: 999;
+    }
+
     .stretch-card {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -70,114 +83,165 @@
 
     <!-- Stretch List -->
     <div id="stretch-list" class="flex flex-col gap-4">
-      <!-- Stretches will be injected here -->
+      <stretch-card stretch-id="pectoral" title="Pectoral Stretch" reps="60 seconds" sets="1"
+        description="Stand with arm against wall, slowly lean forward until chest stretches. Maintain neutral pelvis."
+        image="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="bicep" title="Bicep Stretch" reps="60 seconds" sets="1"
+        description="Arm outstretched against wall, rotate opposite shoulder away. Keep pelvis neutral."
+        image="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="seatedrot" title="Seated Rotations" reps="20 reps" sets="1"
+        description="Pole over shoulders, rotate upper body slowly to each side. Limit hip movement."
+        image="https://images.unsplash.com/photo-1599058917232-d750c185967c?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="sidebend" title="Side Bend and Rotate" reps="10 seconds" sets="5"
+        description="Chin to chest, rotate head to armpit. Add gentle pressure to increase stretch."
+        image="https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="upperback" title="Upper Back Extenders" reps="10 seconds" sets="5"
+        description="Chin tucked, hands above head, lean back over chair edge."
+        image="https://images.unsplash.com/photo-1531938313491-0300187422f4?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="jock" title="Jock Stretch" reps="60 seconds" sets="1"
+        description="Lie on a foam roller between your scapulas, resting your arms down on the floor on either side."
+        image="https://images.unsplash.com/photo-1518611012118-2969c73a47a8?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="pecmajor" title="Pec Major Release" reps="10s squeeze" sets="5"
+        description="Place a ball against a wall or floor on the softest part of your chest and apply pressure."
+        image="https://images.unsplash.com/photo-1518611012118-2969c73a47a8?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="pecminor" title="Pec Minor Release" reps="10s squeeze" sets="5"
+        description="Place a ball against a wall at chest height (around 3rd–5th rib) and apply pressure."
+        image="https://images.unsplash.com/photo-1518611012118-2969c73a47a8?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="scapula" title="Scapula Squeeze (W)" reps="3s squeeze" sets="10"
+        description="Laying on front, squeeze shoulder blades lifting arms in a controlled W-shape."
+        image="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="ballrolls" title="Ball Rolls" reps="20 seconds" sets="6"
+        description="Hold ball against wall at shoulder height. Squeeze scapulas and roll in small circles."
+        image="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="shoulderflex" title="Assisted Standing Shoulder Flexion" reps="20 reps" sets="1"
+        description="Arms against a wall, slowly slide upwards as far as possible and return (3s up / 3s down)."
+        image="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=400"></stretch-card>
+      <stretch-card stretch-id="catcamel" title="Cat / Camel" reps="20 reps" sets="1"
+        description="Hands and knees. Slump back towards floor, then arch towards ceiling. Slow pace."
+        image="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=400"></stretch-card>
     </div>
   </div>
 
   <script>
-    // Data structure for stretches
-    // To add a new stretch, simply add an object to this array.
-    const stretches = [
-      {
-        id: 'pectoral',
-        title: 'Pectoral Stretch',
-        description: 'Stand with arm against wall, slowly lean forward until chest stretches. Maintain neutral pelvis.',
-        reps: '60 seconds',
-        sets: '1',
-        image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'bicep',
-        title: 'Bicep Stretch',
-        description: 'Arm outstretched against wall, rotate opposite shoulder away. Keep pelvis neutral.',
-        reps: '60 seconds',
-        sets: '1',
-        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'seatedrot',
-        title: 'Seated Rotations',
-        description: 'Pole over shoulders, rotate upper body slowly to each side. Limit hip movement.',
-        reps: '20 reps',
-        sets: '1',
-        image: 'https://images.unsplash.com/photo-1599058917232-d750c185967c?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'sidebend',
-        title: 'Side Bend and Rotate',
-        description: 'Chin to chest, rotate head to armpit. Add gentle pressure to increase stretch.',
-        reps: '10 seconds',
-        sets: '5',
-        image: 'https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'upperback',
-        title: 'Upper Back Extenders',
-        description: 'Chin tucked, hands above head, lean back over chair edge.',
-        reps: '10 seconds',
-        sets: '5',
-        image: 'https://images.unsplash.com/photo-1531938313491-0300187422f4?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'jock',
-        title: 'Jock Stretch',
-        description: 'Lie on a foam roller between your scapulas, resting your arms down on the floor on either side.',
-        reps: '60 seconds',
-        sets: '1',
-        image: 'https://images.unsplash.com/photo-1518611012118-2969c73a47a8?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'pecmajor',
-        title: 'Pec Major Release',
-        description: 'Place a ball against a wall or floor on the softest part of your chest and apply pressure.',
-        reps: '10s squeeze',
-        sets: '5',
-        image: 'https://images.unsplash.com/photo-1518611012118-2969c73a47a8?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'pecminor',
-        title: 'Pec Minor Release',
-        description: 'Place a ball against a wall at chest height (around 3rd–5th rib) and apply pressure.',
-        reps: '10s squeeze',
-        sets: '5',
-        image: 'https://images.unsplash.com/photo-1518611012118-2969c73a47a8?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'scapula',
-        title: 'Scapula Squeeze (W)',
-        description: 'Laying on front, squeeze shoulder blades lifting arms in a controlled W-shape.',
-        reps: '3s squeeze',
-        sets: '10',
-        image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'ballrolls',
-        title: 'Ball Rolls',
-        description: 'Hold ball against wall at shoulder height. Squeeze scapulas and roll in small circles.',
-        reps: '20 seconds',
-        sets: '6',
-        image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'shoulderflex',
-        title: 'Assisted Standing Shoulder Flexion',
-        description: 'Arms against a wall, slowly slide upwards as far as possible and return (3s up / 3s down).',
-        reps: '20 reps',
-        sets: '1',
-        image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: 'catcamel',
-        title: 'Cat / Camel',
-        description: 'Hands and knees. Slump back towards floor, then arch towards ceiling. Slow pace.',
-        reps: '20 reps',
-        sets: '1',
-        image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=400'
+    // Web Component: <stretch-card>
+    class StretchCard extends HTMLElement {
+      static get observedAttributes() {
+        return ['done', 'highlighted'];
       }
-    ];
+
+      connectedCallback() {
+        this.render();
+      }
+
+      get stretchId() {
+        return this.getAttribute('stretch-id') || '';
+      }
+
+      get title() {
+        return this.getAttribute('title') || '';
+      }
+
+      get description() {
+        return this.getAttribute('description') || '';
+      }
+
+      get reps() {
+        return this.getAttribute('reps') || '';
+      }
+
+      get sets() {
+        return this.getAttribute('sets') || '';
+      }
+
+      get image() {
+        return this.getAttribute('image') || '';
+      }
+
+      get done() {
+        return this.hasAttribute('done');
+      }
+
+      set done(val) {
+        if (val) {
+          this.setAttribute('done', '');
+        } else {
+          this.removeAttribute('done');
+        }
+      }
+
+      get highlighted() {
+        return this.hasAttribute('highlighted');
+      }
+
+      set highlighted(val) {
+        if (val) {
+          this.setAttribute('highlighted', '');
+        } else {
+          this.removeAttribute('highlighted');
+        }
+      }
+
+      attributeChangedCallback() {
+        this.updateState();
+      }
+
+      render() {
+        if (this._rendered) return;
+        this._rendered = true;
+
+        // Unused until I get some good images.
+        const image = `
+                        <div class="w-24 h-24 flex-shrink-0 bg-slate-100 rounded-lg overflow-hidden border border-slate-100">
+                            <img src="${this.image}" alt="${this.title}" class="w-full h-full object-cover">
+                        </div>
+        `;
+
+        this.innerHTML = `
+          <div id="card-${this.stretchId}" class="stretch-card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4">
+            <div class="flex gap-4">
+              <!-- image would go here -->
+              <div class="flex-1">
+                <h3 class="font-bold text-lg leading-tight mb-1">${this.title}</h3>
+                <div class="flex gap-3 text-xs font-bold text-blue-600 mb-2">
+                  <span class="bg-blue-50 px-2 py-0.5 rounded">Reps: ${this.reps}</span>
+                  <span class="bg-blue-50 px-2 py-0.5 rounded">Sets: ${this.sets}</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed line-clamp-2">${this.description}</p>
+              </div>
+            </div>
+            <div class="mt-4 flex gap-2">
+              <button type="button" class="done-btn flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all"></button>
+            </div>
+          </div>
+        `;
+
+        this.querySelector('.done-btn').addEventListener('click', () => {
+          toggleDone(this.stretchId);
+        });
+
+        this.updateState();
+      }
+
+      updateState() {
+        if (!this._rendered) return;
+        const card = this.querySelector('.stretch-card');
+        const btn = this.querySelector('.done-btn');
+        const isDone = this.done;
+        const isHighlighted = this.highlighted;
+
+        card.className = `stretch-card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4 ${isDone ? 'done-card' : ''} ${isHighlighted ? 'highlight-card' : ''}`;
+        btn.className = `done-btn flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${isDone ? 'bg-slate-200 text-slate-600' : 'bg-green-100 text-green-700 hover:bg-green-200'}`;
+        btn.textContent = isDone ? '✓ Completed' : 'Mark as Done';
+      }
+    }
+    customElements.define('stretch-card', StretchCard);
 
     let completedIds = [];
     let highlightedId = null;
+
+    function getCards() {
+      return Array.from(document.querySelectorAll('stretch-card'));
+    }
 
     function init() {
       // Display current date
@@ -231,13 +295,13 @@
     }
 
     function randomizeNext() {
-      const remaining = stretches.filter(s => !completedIds.includes(s.id));
+      const remaining = getCards().filter(c => !completedIds.includes(c.stretchId));
       if (remaining.length === 0) {
         alert("All stretches completed! Great job.");
         return;
       }
       const random = remaining[Math.floor(Math.random() * remaining.length)];
-      highlightedId = random.id;
+      highlightedId = random.stretchId;
       render();
 
       // Scroll to the highlighted element
@@ -248,61 +312,16 @@
     }
 
     function render() {
-      const listEl = document.getElementById('stretch-list');
-      listEl.innerHTML = '';
+      const cards = getCards();
 
       // Update Progress
-      const progress = (completedIds.length / stretches.length) * 100;
+      const progress = cards.length ? (completedIds.length / cards.length) * 100 : 0;
       document.getElementById('progress-bar').style.width = progress + '%';
-      document.getElementById('progress-text').innerText = `${completedIds.length}/${stretches.length}`;
+      document.getElementById('progress-text').innerText = `${completedIds.length}/${cards.length}`;
 
-      // Sort stretches: highlighted first, then uncompleted, then completed
-      const sorted = [...stretches].sort((a, b) => {
-        const aDone = completedIds.includes(a.id);
-        const bDone = completedIds.includes(b.id);
-
-        if (a.id === highlightedId) return -1;
-        if (b.id === highlightedId) return 1;
-
-        if (aDone && !bDone) return 1;
-        if (!aDone && bDone) return -1;
-        return 0;
-      });
-
-      sorted.forEach(stretch => {
-        const isDone = completedIds.includes(stretch.id);
-        const isHighlighted = stretch.id === highlightedId;
-
-        const card = document.createElement('div');
-        card.id = 'card-' + stretch.id;
-        card.className = `stretch-card bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 p-4 ${isDone ? 'done-card' : ''} ${isHighlighted ? 'highlight-card' : ''}`;
-
-        // Unused until I get some good images.
-        const image = `
-                        <div class="w-24 h-24 flex-shrink-0 bg-slate-100 rounded-lg overflow-hidden border border-slate-100">
-                            <img src="${stretch.image}" alt="${stretch.title}" class="w-full h-full object-cover">
-                        </div>
-        `
-
-        card.innerHTML = `
-                    <div class="flex gap-4">
-                        <!-- image would go here -->
-                        <div class="flex-1">
-                            <h3 class="font-bold text-lg leading-tight mb-1">${stretch.title}</h3>
-                            <div class="flex gap-3 text-xs font-bold text-blue-600 mb-2">
-                                <span class="bg-blue-50 px-2 py-0.5 rounded">Reps: ${stretch.reps}</span>
-                                <span class="bg-blue-50 px-2 py-0.5 rounded">Sets: ${stretch.sets}</span>
-                            </div>
-                            <p class="text-xs text-slate-500 leading-relaxed line-clamp-2">${stretch.description}</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex gap-2">
-                        <button onclick="toggleDone('${stretch.id}')" class="flex-1 py-2 px-4 rounded-lg font-bold text-sm transition-all ${isDone ? 'bg-slate-200 text-slate-600' : 'bg-green-100 text-green-700 hover:bg-green-200'}">
-                            ${isDone ? '✓ Completed' : 'Mark as Done'}
-                        </button>
-                    </div>
-                `;
-        listEl.appendChild(card);
+      cards.forEach(card => {
+        card.done = completedIds.includes(card.stretchId);
+        card.highlighted = card.stretchId === highlightedId;
       });
     }
 
