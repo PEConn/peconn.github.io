@@ -1,3 +1,4 @@
 # Folders with dotfiles are ignored by default.
 include: [.well-known]
+exclude: [AGENTS.md]
 theme: jekyll-theme-hacker
