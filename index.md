@@ -4,9 +4,10 @@
 
 - [Daily Checklists](checklists.html)
 - [Kim Checklists](kim-checklists.html)
-- [Caton Clinic Stretch Tracker](stretches.html)
+- [Stretch Tracker](stretches.html)
+- [Stretch Timer](timer/)
 - [Tartan Noir Tracker](tartan.html)
-- [Android Activity Flags](activityflags/)
+- [Packing app](pack/)
 
 ## Notes & Guides
 
@@ -16,6 +17,7 @@
 
 ## Demos & Browser Tests
 
+- [Android Activity Flags](activityflags/)
 - [Pick a Starter! (PWA)](starters/)
 - [Resource Timing API Demo](resource_timing.html)
 - [Canvas `toBlob` Timer](toblob.html)
