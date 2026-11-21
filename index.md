@@ -3,6 +3,7 @@
 ## Trackers & Tools
 
 - [Daily Checklists](checklists.html)
+- [Kim Checklists](kim-checklists.html)
 - [Caton Clinic Stretch Tracker](stretches.html)
 - [Tartan Noir Tracker](tartan.html)
 - [Android Activity Flags](activityflags/)
